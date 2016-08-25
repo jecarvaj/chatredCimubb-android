@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public class Bluetooth implements BluetoothConstantes{
     private hiloConectar btConectar;
     private hiloConectado btConectado;
     private hiloEscucha btEscucha;
-
+    int cont=0;
     private int estado;
     private boolean activo;
 
@@ -284,7 +286,7 @@ public class Bluetooth implements BluetoothConstantes{
                         localService.mensajesChat("btm "+mensaje);                          // Añade el mensaje recibido al chat
 
                        System.out.println("RECIBOOOOO DE BLUUUUEEETOOOH::::: "+mensaje);
-                        subirNube(mensaje, "recibidos");
+                        subirNube(mensaje, "encoders");
 
                         if(localService.getEnviar().getOrdenBTactiva())                     // Si se esta comunicando una orden por BT
                             localService.getEnviar().getMBluetooth().add(mensaje);              // Se añade el mensaje al Vector mensajesBT
@@ -404,7 +406,7 @@ public class Bluetooth implements BluetoothConstantes{
         }
         // Perform the write unsynchronized
         r.escribirln(s);
-        subirNube(s, "enviados");
+       // subirNube(s, "enviados");
     }
 
     // Para enviar mensajes a través de Bluetooth sin un salto de línea
@@ -506,16 +508,37 @@ public class Bluetooth implements BluetoothConstantes{
         }
 
     }
+
+
     public void subirNube(String info, String referencia){
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(referencia);
+         Calendar c1 = Calendar.getInstance();
 
-        if(info.length()>40) {
+
+        int año = c1.get(Calendar.YEAR);
+        int mes = c1.get(Calendar.MONTH);
+        int dia = c1.get(Calendar.DAY_OF_MONTH);
+        int hora = c1.get(Calendar.HOUR_OF_DAY);
+        int minuto = c1.get(Calendar.MINUTE);
+        int segundo = c1.get(Calendar.SECOND);
+        String fecha=dia+"/"+(mes+1)+"/"+año;
+        String fecha_hora=hora+":"+minuto+":"+segundo;
+        Map<String, Object> map = new HashMap<String, Object>();
+        Long tsLong = System.currentTimeMillis()/10;
+        String ts = tsLong.toString();
+
+
+
+
+       if(info.length()>40){
             String delimitadores = "[ ]+";
             String[] encoders = info.split(delimitadores);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("fecha", "3252462346");
+
+            map.put("fecha",fecha );
+            map.put("hora", fecha_hora);
+            map.put("timestamp", ts);
             map.put("enc1", encoders[0]);
             map.put("enc2", encoders[1]);
             map.put("enc3", encoders[2]);
@@ -524,11 +547,19 @@ public class Bluetooth implements BluetoothConstantes{
             map.put("enc6", encoders[5]);
             map.put("enc7", encoders[6]);
             map.put("enc8", encoders[7]);
+            if(!encoders[0].equals("enc1")){
+                myRef.push().setValue(map);
+            }
+
+        }else{
+            map.put("fecha", año);
+            map.put("hora", fecha_hora);
+            map.put("timestamp", ts);
+            map.put("recibido", info);
             myRef.push().setValue(map);
-        }else{ myRef.push().setValue(info);}
+        }
         //
         //Toast.makeText(this, "probando nubee", Toast.LENGTH_LONG).show();
 
     }
-
 }
