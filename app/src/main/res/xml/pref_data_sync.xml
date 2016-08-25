@@ -1,0 +1,105 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/menu_cliente"
+        android:key="ws1_categoria_clientes">
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="text"
+            android:key="ws1_ip"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_ip"
+            android:summary="Ingrese IP" />
+
+        <EditTextPreference
+            android:defaultValue="6753"
+            android:inputType="number"
+            android:key="ws1_puerto"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_puerto" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/ws_ordenes"
+        android:key="ws1_ordenes">
+
+        <ListPreference
+            android:defaultValue="N"
+            android:entries="@array/ws1_buffer_titles"
+            android:entryValues="@array/ws1_buffer_values"
+            android:key="ws1_buffer"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/ws1_buffer" />
+
+        <EditTextPreference
+            android:defaultValue="N"
+            android:inputType="text"
+            android:key="ws1_template"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_template"
+            android:summary="Ejemplos: 01,02,11,12" />
+
+        <ListPreference
+            android:defaultValue="N"
+            android:entries="@array/ws_materiap_titles"
+            android:entryValues="@array/ws_materiap_values"
+            android:key="ws1_mp"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/ws_mp" />
+
+        <EditTextPreference
+            android:defaultValue="N"
+            android:inputType="text"
+            android:key="ws1_almacen"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_almacen"
+            android:summary="Ejemplos: 01,02,11,12" />
+
+        <Preference
+            android:key="ws1_txxtobx"
+            android:title="@string/ws_txxtobx" />
+
+        <Preference
+            android:key="ws1_mpxtobx"
+            android:title="@string/ws_mpxtobx" />
+
+        <Preference
+            android:key="ws1_dtxxcnvx"
+            android:title="@string/ws_dtxxcnvx" />
+
+        <Preference
+            android:key="ws1_bxtocnvx"
+            android:title="@string/ws_bxtocnvx" />
+
+        <Preference
+            android:key="ws1_ltxxcnvx"
+            android:title="@string/ws_ltxxcnvx" />
+
+        <Preference
+            android:key="ws1_convxtoaxx"
+            android:title="@string/ws_convxtoaxx" />
+
+        <Preference
+            android:key="ws1_bxtoaxx"
+            android:title="@string/ws_bxtoaxx" />
+
+        <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
+            design guidelines.
+        <Preference android:title="@string/pref_title_system_sync_settings">
+            <intent android:action="android.settings.SYNC_SETTINGS" />
+        </Preference> -->
+    </PreferenceCategory>
+
+</PreferenceScreen>

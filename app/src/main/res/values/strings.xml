@@ -1,0 +1,194 @@
+<resources>
+    <string name="app_name">chatred</string>
+    <string name="action_bluetooth">Bluetooth</string>
+    <string name="action_wifi">Reconectar clientes WIFI</string>>
+    <string name="action_settings">Configuración</string>
+    <string name="action_exit">Cerrar</string>
+    <string name="enviar">Enviar</string>
+    <string name="mensajesrecibidos"></string>
+    <string name="feedback">Esperando instrucciones</string>
+    <string name="title_activity_settings">Configuración</string>
+
+    <!-- Strings related to Settings -->
+
+        <!-- Strings Headers -->
+        <string name="header_cliente">Configurar Administrador/Esclavo</string>
+        <string name="header_archivo">Configurar Archivos</string>
+        <string name="header_ws1">Workstation 1</string>
+        <string name="header_ws2">Workstation 2</string>
+        <string name="header_ws3">Workstation 3</string>
+        <string name="header_ws4">PLC</string>
+
+        <!-- Strings Menú Cliente -->
+        <string name="menu_cliente">Esclavo</string>
+        <string name="cliente_esclavo">Cliente esclavo</string>
+        <string name="cliente_id">ID Cliente esclavo</string>
+        <string name="cliente_estacion">Estación Cliente esclavo</string>
+        <!-- <string name="cliente_ip">IP Cliente</string> -->
+        <string name="cliente_puerto">Puerto Cliente esclavo</string>
+
+        <!-- Strings Menú Archivo -->
+        <string name="menu_archivo_instrucciones">Archivo Instrucciones</string>
+        <string name="archivo_guardar_instrucciones">Guardar Archivo</string>
+
+        <string name="menu_archivo_clientes">Archivo clientes (Esclavos)</string>
+        <string name="menu_archivo_ordenes">Archivo ordenes</string>
+        <string name="menu_archivo_diccionario">Archivo diccionario</string>
+
+        <string name="archivo_nombre">Ubicación archivo</string>
+        <string name="archivo_leer">Leer archivo</string>
+
+        <string name="ws_ordenes">Instrucciones</string>
+
+        <!-- Strings WS1 -->
+        <string name="ws_ip">IP Workstation</string>
+        <string name="ws_puerto">Puerto Workstation</string>
+        <string name="ws1_buffer">Seleccionar Buffer</string>
+        <string-array name="ws1_buffer_titles">
+            <item>Ninguno</item>
+            <item>Buffer 1</item>
+            <item>Buffer 2</item>
+        </string-array>
+        <string-array name="ws1_buffer_values">
+            <item>N</item>
+            <item>B1</item>
+            <item>B2</item>
+        </string-array>
+        <string name="ws_template">Seleccionar Template</string>
+        <string name="ws_mp">Seleccionar Materia Prima</string>
+        <string-array name="ws_materiap_titles">
+            <item>Ninguna</item>
+            <item>Materia Prima 1</item>
+            <item>Materia Prima 2</item>
+            <item>Materia Prima 3</item>
+        </string-array>
+        <string-array name="ws_materiap_values">
+            <item>N</item>
+            <item>MP1</item>
+            <item>MP2</item>
+            <item>MP3</item>
+        </string-array>
+        <string name="ws_almacen">Seleccionar Almacen</string>
+
+        <!-- Strings WS2 -->
+        <string name="ws2_buffer">Seleccionar Buffer</string>
+        <string-array name="ws2_buffer_titles">
+            <item>Ninguno</item>
+            <item>Buffer 3</item>
+            <item>Buffer 4</item>
+        </string-array>
+        <string-array name="ws2_buffer_values">
+            <item>N</item>
+            <item>B3</item>
+            <item>B4</item>
+        </string-array>
+
+        <!-- Strings WS3 -->
+        <string name="ws3_buffer">Seleccionar Buffer</string>
+        <string-array name="ws3_buffer_titles">
+            <item>Ninguno</item>
+            <item>Buffer 5</item>
+            <item>Buffer 6</item>
+        </string-array>
+        <string-array name="ws3_buffer_values">
+            <item>N</item>
+            <item>B5</item>
+            <item>B6</item>
+        </string-array>
+
+        <string name="ws_txxtobx">Template to Buffer</string>
+        <string name="ws_mpxtobx">Materia prima to Buffer</string>
+        <string name="ws_dtxxcnvx">Detener Template en Conveyor</string>
+        <string name="ws_bxtocnvx">Buffer to Conveyor</string>
+        <string name="ws_ltxxcnvx">Liberar template en Conveyor</string>
+        <string name="ws_convxtoaxx">Conveyor to almacen</string>
+        <string name="ws_bxtoaxx">Buffer to almacen</string>
+
+        <string name="ws_mpxtofrx">Materia prima to Fresadora</string>
+        <string name="ws_mpxtotrx">Materia prima to Torno</string>
+        <string name="ws_prog1">Programa 1</string>
+        <string name="ws_prog2">Programa 2</string>
+        <string name="ws_trxtobx">Torno to Buffer</string>
+        <string name="ws_frxtobx">Fresadora to Buffer</string>
+
+        <string name="ws_mpxtopx">Materia prima to Prensa</string>
+        <string name="ws_mpxtomvx">Materia prima to Machine Vision</string>
+        <string name="ws_prog3">Programa 3</string>
+        <string name="ws_pxtobx">Prensa to Buffer</string>
+
+        <!-- Strings related to DeviceListActivity -->
+
+        <string name="bt_not_enabled_leaving">Bluetooth was not enabled.</string>
+
+        <string name="scanning">scanning for devices...</string>
+        <string name="select_device">select a device to connect</string>
+        <string name="none_paired">No devices have been paired</string>
+        <string name="none_found">No devices found</string>
+        <string name="title_paired_devices">Paired Devices</string>
+        <string name="title_other_devices">Other Available Devices</string>
+        <string name="button_scan">Scan for devices</string>
+
+        <!-- Strings SharedPreferences -->
+
+        <string name="spreferences_listaClientes">spf_listaClientes</string>
+        <string name="spreferences_listaMensajes">spf_listaMensajes</string>
+
+
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+</resources>

@@ -1,0 +1,116 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/menu_cliente"
+        android:key="ws2_categoria_clientes">
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="text"
+            android:key="ws2_ip"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_ip" />
+
+        <EditTextPreference
+            android:defaultValue="6753"
+            android:inputType="number"
+            android:key="ws2_puerto"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_puerto" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/ws_ordenes"
+        android:key="ws2_ordenes">
+
+        <ListPreference
+            android:defaultValue="N"
+            android:entries="@array/ws2_buffer_titles"
+            android:entryValues="@array/ws2_buffer_values"
+            android:key="ws2_buffer"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/ws2_buffer" />
+
+        <EditTextPreference
+            android:defaultValue="N"
+            android:inputType="text"
+            android:key="ws2_template"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_template"
+            android:summary="Ejemplos: 01,02,11,12" />
+
+        <ListPreference
+            android:defaultValue="N"
+            android:entries="@array/ws_materiap_titles"
+            android:entryValues="@array/ws_materiap_values"
+            android:key="ws2_mp"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/ws_mp" />
+
+        <EditTextPreference
+            android:defaultValue="N"
+            android:inputType="text"
+            android:key="ws2_almacen"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/ws_almacen"
+            android:summary="Ejemplos: 01,02,11,12" />
+
+        <Preference
+            android:key="ws2_dtxxcnvx"
+            android:title="@string/ws_dtxxcnvx" />
+
+        <Preference
+            android:key="ws2_ltxxcnvx"
+            android:title="@string/ws_ltxxcnvx" />
+
+        <Preference
+            android:key="ws2_txxtobx"
+            android:title="@string/ws_txxtobx" />
+
+        <Preference
+            android:key="ws2_mpxtofrx"
+            android:title="@string/ws_mpxtofrx" />
+
+        <Preference
+            android:key="ws2_mpxtotrx"
+            android:title="@string/ws_mpxtotrx" />
+
+        <Preference
+            android:key="ws2_prog1"
+            android:title="@string/ws_prog1" />
+
+        <Preference
+            android:key="ws2_prog2"
+            android:title="@string/ws_prog2" />
+
+        <Preference
+            android:key="ws2_frxtobx"
+            android:title="@string/ws_frxtobx" />
+
+        <Preference
+            android:key="ws2_bxtocnvx"
+            android:title="@string/ws_bxtocnvx" />
+
+        <Preference
+            android:key="ws2_bxtoaxx"
+            android:title="@string/ws_bxtoaxx" />
+
+        <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
+            design guidelines.
+        <Preference android:title="@string/pref_title_system_sync_settings">
+            <intent android:action="android.settings.SYNC_SETTINGS" />
+        </Preference> -->
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,105 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/menu_archivo_instrucciones"
+        android:key="archivo_categoria_instrucciones">
+
+        <Preference
+            android:key="archivo_guardar_instrucciones"
+            android:title="@string/archivo_guardar_instrucciones"
+            android:summary="El archivo a guardar es un *.txt, se ubicara en la carpeta Downloads y se llamara: registro (fecha-hora).txt" />
+
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory
+        android:title="@string/menu_archivo_clientes"
+        android:key="archivo_categoria_clientes">
+
+        <EditTextPreference
+            android:defaultValue="lista_clientes.txt"
+            android:inputType="text"
+            android:key="archivo_ubicacion_clientes"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/archivo_nombre"
+            android:summary="El archivo de clientes debe ser un *.txt, la ubicación (ruta) debe ser especificada manualmente, esta debe estar en la tarjeta SD. ( Ejemplo: clientes/clientes.txt )"/>
+
+        <Preference
+            android:key="archivo_clientes_leer"
+            android:title="@string/archivo_leer" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/menu_archivo_ordenes"
+        android:key="archivo_categoria_ordenes">
+
+        <EditTextPreference
+            android:defaultValue="orden1.txt"
+            android:inputType="text"
+            android:key="archivo_ubicacion_ordenes"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/archivo_nombre"
+            android:summary="El archivo de ordenes debe ser un *.txt, la ubicación (ruta) debe ser especificada manualmente, esta debe estar en la tarjeta SD. ( Ejemplo: ordenes/orden1.txt )"/>
+
+        <Preference
+            android:key="archivo_ordenes_leer"
+            android:title="@string/archivo_leer" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/menu_archivo_diccionario"
+        android:key="archivo_categoria_diccionario">
+
+        <EditTextPreference
+            android:defaultValue="diccionario.txt"
+            android:inputType="text"
+            android:key="archivo_ubicacion_diccionario"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/archivo_nombre"
+            android:summary="El archivo de diccionario debe ser un *.txt, la ubicación (ruta) debe ser especificada manualmente, esta debe estar en la tarjeta SD. ( Ejemplo: ordenes/diccionario.txt )"/>
+
+        <Preference
+            android:key="archivo_diccionario_leer"
+            android:title="@string/archivo_leer" />
+
+    </PreferenceCategory>-->
+
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <!--
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications_new_message"
+        android:title="@string/pref_title_new_message_notifications" />
+        -->
+
+    <!-- Allows the user to choose a ringtone in the 'notification' category. -->
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
+    <!--
+    <RingtonePreference
+        android:defaultValue="content://settings/system/notification_sound"
+        android:dependency="notifications_new_message"
+        android:key="notifications_new_message_ringtone"
+        android:ringtoneType="notification"
+        android:title="@string/pref_title_ringtone" />
+        -->
+
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <!--
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="notifications_new_message"
+        android:key="notifications_new_message_vibrate"
+        android:title="@string/pref_title_vibrate" />
+        -->
+
+</PreferenceScreen>
