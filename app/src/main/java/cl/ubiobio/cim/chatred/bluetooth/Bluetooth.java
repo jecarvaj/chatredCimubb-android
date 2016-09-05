@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cl.ubiobio.cim.chatred.Constantes;
 import cl.ubiobio.cim.chatred.LocalService;
@@ -35,15 +37,14 @@ import cl.ubiobio.cim.chatred.MainActivity;
  * ciclos, incluyendo la velocidad de los ciclos de modo que sea dinamica.
  */
 public class Bluetooth implements BluetoothConstantes{
-
     private LocalService localService;
 
     private hiloConectar btConectar;
     private hiloConectado btConectado;
     private hiloEscucha btEscucha;
-    int cont=0;
+
     private int estado;
-    private boolean activo;
+    private boolean activo, recibeEncoder=false;
 
     // Metodos estado
     private synchronized void setState(int state) {
@@ -93,6 +94,7 @@ public class Bluetooth implements BluetoothConstantes{
 
     // Metodo para iniciar escucha
     public synchronized void start() throws IOException {
+
         if (btConectar != null) {
             btConectar.cerrar();
             btConectar = null;
@@ -286,7 +288,7 @@ public class Bluetooth implements BluetoothConstantes{
                         localService.mensajesChat("btm "+mensaje);                          // Añade el mensaje recibido al chat
 
                        System.out.println("RECIBOOOOO DE BLUUUUEEETOOOH::::: "+mensaje);
-                        subirNube(mensaje, "encoders");
+                        analizaNube(mensaje, "recibe");
 
                         if(localService.getEnviar().getOrdenBTactiva())                     // Si se esta comunicando una orden por BT
                             localService.getEnviar().getMBluetooth().add(mensaje);              // Se añade el mensaje al Vector mensajesBT
@@ -406,7 +408,9 @@ public class Bluetooth implements BluetoothConstantes{
         }
         // Perform the write unsynchronized
         r.escribirln(s);
-       // subirNube(s, "enviados");
+       System.out.println("ENVIOOOOOOOOOOOOOOOOO"+s);
+        analizaNube(s, "envia");
+
     }
 
     // Para enviar mensajes a través de Bluetooth sin un salto de línea
@@ -430,6 +434,7 @@ public class Bluetooth implements BluetoothConstantes{
         // bundle.putString(BluetoothChat.TOAST, "Unable to connect device");
         // msg.setData(bundle);
         // mHandler.sendMessage(msg);
+
         localService.errorMessage("Error al conectar BT");
 
         // Start the service over to restart listening mode
@@ -461,11 +466,11 @@ public class Bluetooth implements BluetoothConstantes{
 
         }
 
-        public void run(){
+        public void run() {
 
             BluetoothSocket socket = null;
 
-            while(estado != STATE_CONNECTED){
+            while (estado != STATE_CONNECTED) {
                 try {
                     socket = serverSocket.accept();
                 } catch (IOException e) {
@@ -473,7 +478,7 @@ public class Bluetooth implements BluetoothConstantes{
                     break;
                 }
 
-                if(socket!=null){
+                if (socket != null) {
                     switch (estado) {
                         case STATE_LISTEN:
                         case STATE_CONNECTING:
@@ -497,7 +502,7 @@ public class Bluetooth implements BluetoothConstantes{
 
         }
 
-        public boolean cerrar(){
+        public boolean cerrar() {
             try {
                 serverSocket.close();
                 return true;
@@ -509,14 +514,10 @@ public class Bluetooth implements BluetoothConstantes{
 
     }
 
-
-    public void subirNube(String info, String referencia){
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(referencia);
-         Calendar c1 = Calendar.getInstance();
+    public void analizaNube(String mensaje, String opcion){
 
 
+        Calendar c1 = Calendar.getInstance();
         int año = c1.get(Calendar.YEAR);
         int mes = c1.get(Calendar.MONTH);
         int dia = c1.get(Calendar.DAY_OF_MONTH);
@@ -529,37 +530,51 @@ public class Bluetooth implements BluetoothConstantes{
         Long tsLong = System.currentTimeMillis()/10;
         String ts = tsLong.toString();
 
+        Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){7}((\\d|\\-)\\d\\d\\d\\d\\d\\s)");
+        Matcher mat = pat.matcher(mensaje);
 
+        if(opcion.equals("recibe")) {
+            if (mat.matches()) {
+                System.out.println("ES UN ENCODEEEEEEEEEEEERRRRr");
+                String delimitadores = "[ ]+";
+                String[] encoders = mensaje.split(delimitadores);
 
-
-       if(info.length()>40){
-            String delimitadores = "[ ]+";
-            String[] encoders = info.split(delimitadores);
-
-            map.put("fecha",fecha );
-            map.put("hora", fecha_hora);
-            map.put("timestamp", ts);
-            map.put("enc1", encoders[0]);
-            map.put("enc2", encoders[1]);
-            map.put("enc3", encoders[2]);
-            map.put("enc4", encoders[3]);
-            map.put("enc5", encoders[4]);
-            map.put("enc6", encoders[5]);
-            map.put("enc7", encoders[6]);
-            map.put("enc8", encoders[7]);
-            if(!encoders[0].equals("enc1")){
-                myRef.push().setValue(map);
+                map.put("fecha", fecha);
+                map.put("hora", fecha_hora);
+                map.put("timestamp", ts);
+                map.put("enc1", encoders[0]);
+                map.put("enc2", encoders[1]);
+                map.put("enc3", encoders[2]);
+                map.put("enc4", encoders[3]);
+                map.put("enc5", encoders[4]);
+                map.put("enc6", encoders[5]);
+                map.put("enc7", encoders[6]);
+                map.put("enc8", encoders[7]);
+                subirNube(map, "encoders");
+            } else {
+                System.out.println("NO PASA NAAAAAAAAAAAAAAAA");
+                map.put("fecha", fecha);
+                map.put("hora", fecha_hora);
+                map.put("timestamp", ts);
+                map.put("mensaje", mensaje);
+                subirNube(map, "recibidos");
             }
-
-        }else{
-            map.put("fecha", año);
+        }else {
+            System.out.println("ESTOY ENVIANDO NNNFOSADNFOASDNF");
+            map.put("fecha", fecha);
             map.put("hora", fecha_hora);
             map.put("timestamp", ts);
-            map.put("recibido", info);
-            myRef.push().setValue(map);
+            map.put("mensaje", mensaje);
+            subirNube(map, "enviados");
         }
-        //
-        //Toast.makeText(this, "probando nubee", Toast.LENGTH_LONG).show();
 
+
+    }
+
+
+    public void subirNube(Map<String, Object> info, String referencia){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(referencia);
+        myRef.push().setValue(info);
     }
 }

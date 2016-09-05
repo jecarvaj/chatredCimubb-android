@@ -5,10 +5,28 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_wifi" android:title="@string/action_wifi"
         android:orderInCategory="200" app:showAsAction="never" />
+
+    <item android:visible="true" android:id="@+id/menuNube"
+        android:titleCondensed="Areas"
+        android:title="Nube"
+        android:enabled="true"
+        android:orderInCategory="300">
+        <menu>
+            <item android:id="@+id/action_crearPrueba" android:title="Registrar prueba"></item>
+            <item
+                android:id="@+id/action_nube"
+                android:checkable="true"
+                android:orderInCategory="300"
+                android:title="Subir datos a nube" />
+        </menu>
+    </item>
+
+
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="300" app:showAsAction="never" />
-    <item android:id="@+id/action_exit" android:title="@string/action_exit"
         android:orderInCategory="400" app:showAsAction="never" />
+    <item android:id="@+id/action_exit" android:title="@string/action_exit"
+        android:orderInCategory="500" app:showAsAction="never" />
 </menu>
 
 <!--

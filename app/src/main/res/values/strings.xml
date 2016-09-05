@@ -11,128 +11,127 @@
 
     <!-- Strings related to Settings -->
 
-        <!-- Strings Headers -->
-        <string name="header_cliente">Configurar Administrador/Esclavo</string>
-        <string name="header_archivo">Configurar Archivos</string>
-        <string name="header_ws1">Workstation 1</string>
-        <string name="header_ws2">Workstation 2</string>
-        <string name="header_ws3">Workstation 3</string>
-        <string name="header_ws4">PLC</string>
+    <!-- Strings Headers -->
+    <string name="header_cliente">Configurar Administrador/Esclavo</string>
+    <string name="header_archivo">Configurar Archivos</string>
+    <string name="header_ws1">Workstation 1</string>
+    <string name="header_ws2">Workstation 2</string>
+    <string name="header_ws3">Workstation 3</string>
+    <string name="header_ws4">PLC</string>
 
-        <!-- Strings Menú Cliente -->
-        <string name="menu_cliente">Esclavo</string>
-        <string name="cliente_esclavo">Cliente esclavo</string>
-        <string name="cliente_id">ID Cliente esclavo</string>
-        <string name="cliente_estacion">Estación Cliente esclavo</string>
-        <!-- <string name="cliente_ip">IP Cliente</string> -->
-        <string name="cliente_puerto">Puerto Cliente esclavo</string>
+    <!-- Strings Menú Cliente -->
+    <string name="menu_cliente">Esclavo</string>
+    <string name="cliente_esclavo">Cliente esclavo</string>
+    <string name="cliente_id">ID Cliente esclavo</string>
+    <string name="cliente_estacion">Estación Cliente esclavo</string>
+    <!-- <string name="cliente_ip">IP Cliente</string> -->
+    <string name="cliente_puerto">Puerto Cliente esclavo</string>
 
-        <!-- Strings Menú Archivo -->
-        <string name="menu_archivo_instrucciones">Archivo Instrucciones</string>
-        <string name="archivo_guardar_instrucciones">Guardar Archivo</string>
+    <!-- Strings Menú Archivo -->
+    <string name="menu_archivo_instrucciones">Archivo Instrucciones</string>
+    <string name="archivo_guardar_instrucciones">Guardar Archivo</string>
 
-        <string name="menu_archivo_clientes">Archivo clientes (Esclavos)</string>
-        <string name="menu_archivo_ordenes">Archivo ordenes</string>
-        <string name="menu_archivo_diccionario">Archivo diccionario</string>
+    <string name="menu_archivo_clientes">Archivo clientes (Esclavos)</string>
+    <string name="menu_archivo_ordenes">Archivo ordenes</string>
+    <string name="menu_archivo_diccionario">Archivo diccionario</string>
 
-        <string name="archivo_nombre">Ubicación archivo</string>
-        <string name="archivo_leer">Leer archivo</string>
+    <string name="archivo_nombre">Ubicación archivo</string>
+    <string name="archivo_leer">Leer archivo</string>
 
-        <string name="ws_ordenes">Instrucciones</string>
+    <string name="ws_ordenes">Instrucciones</string>
 
-        <!-- Strings WS1 -->
-        <string name="ws_ip">IP Workstation</string>
-        <string name="ws_puerto">Puerto Workstation</string>
-        <string name="ws1_buffer">Seleccionar Buffer</string>
-        <string-array name="ws1_buffer_titles">
-            <item>Ninguno</item>
-            <item>Buffer 1</item>
-            <item>Buffer 2</item>
-        </string-array>
-        <string-array name="ws1_buffer_values">
-            <item>N</item>
-            <item>B1</item>
-            <item>B2</item>
-        </string-array>
-        <string name="ws_template">Seleccionar Template</string>
-        <string name="ws_mp">Seleccionar Materia Prima</string>
-        <string-array name="ws_materiap_titles">
-            <item>Ninguna</item>
-            <item>Materia Prima 1</item>
-            <item>Materia Prima 2</item>
-            <item>Materia Prima 3</item>
-        </string-array>
-        <string-array name="ws_materiap_values">
-            <item>N</item>
-            <item>MP1</item>
-            <item>MP2</item>
-            <item>MP3</item>
-        </string-array>
-        <string name="ws_almacen">Seleccionar Almacen</string>
+    <!-- Strings WS1 -->
+    <string name="ws_ip">IP Workstation</string>
+    <string name="ws_puerto">Puerto Workstation</string>
+    <string name="ws1_buffer">Seleccionar Buffer</string>
+    <string-array name="ws1_buffer_titles">
+        <item>Ninguno</item>
+        <item>Buffer 1</item>
+        <item>Buffer 2</item>
+    </string-array>
+    <string-array name="ws1_buffer_values">
+        <item>N</item>
+        <item>B1</item>
+        <item>B2</item>
+    </string-array>
+    <string name="ws_template">Seleccionar Template</string>
+    <string name="ws_mp">Seleccionar Materia Prima</string>
+    <string-array name="ws_materiap_titles">
+        <item>Ninguna</item>
+        <item>Materia Prima 1</item>
+        <item>Materia Prima 2</item>
+        <item>Materia Prima 3</item>
+    </string-array>
+    <string-array name="ws_materiap_values">
+        <item>N</item>
+        <item>MP1</item>
+        <item>MP2</item>
+        <item>MP3</item>
+    </string-array>
+    <string name="ws_almacen">Seleccionar Almacen</string>
 
-        <!-- Strings WS2 -->
-        <string name="ws2_buffer">Seleccionar Buffer</string>
-        <string-array name="ws2_buffer_titles">
-            <item>Ninguno</item>
-            <item>Buffer 3</item>
-            <item>Buffer 4</item>
-        </string-array>
-        <string-array name="ws2_buffer_values">
-            <item>N</item>
-            <item>B3</item>
-            <item>B4</item>
-        </string-array>
+    <!-- Strings WS2 -->
+    <string name="ws2_buffer">Seleccionar Buffer</string>
+    <string-array name="ws2_buffer_titles">
+        <item>Ninguno</item>
+        <item>Buffer 3</item>
+        <item>Buffer 4</item>
+    </string-array>
+    <string-array name="ws2_buffer_values">
+        <item>N</item>
+        <item>B3</item>
+        <item>B4</item>
+    </string-array>
 
-        <!-- Strings WS3 -->
-        <string name="ws3_buffer">Seleccionar Buffer</string>
-        <string-array name="ws3_buffer_titles">
-            <item>Ninguno</item>
-            <item>Buffer 5</item>
-            <item>Buffer 6</item>
-        </string-array>
-        <string-array name="ws3_buffer_values">
-            <item>N</item>
-            <item>B5</item>
-            <item>B6</item>
-        </string-array>
+    <!-- Strings WS3 -->
+    <string name="ws3_buffer">Seleccionar Buffer</string>
+    <string-array name="ws3_buffer_titles">
+        <item>Ninguno</item>
+        <item>Buffer 5</item>
+        <item>Buffer 6</item>
+    </string-array>
+    <string-array name="ws3_buffer_values">
+        <item>N</item>
+        <item>B5</item>
+        <item>B6</item>
+    </string-array>
 
-        <string name="ws_txxtobx">Template to Buffer</string>
-        <string name="ws_mpxtobx">Materia prima to Buffer</string>
-        <string name="ws_dtxxcnvx">Detener Template en Conveyor</string>
-        <string name="ws_bxtocnvx">Buffer to Conveyor</string>
-        <string name="ws_ltxxcnvx">Liberar template en Conveyor</string>
-        <string name="ws_convxtoaxx">Conveyor to almacen</string>
-        <string name="ws_bxtoaxx">Buffer to almacen</string>
+    <string name="ws_txxtobx">Template to Buffer</string>
+    <string name="ws_mpxtobx">Materia prima to Buffer</string>
+    <string name="ws_dtxxcnvx">Detener Template en Conveyor</string>
+    <string name="ws_bxtocnvx">Buffer to Conveyor</string>
+    <string name="ws_ltxxcnvx">Liberar template en Conveyor</string>
+    <string name="ws_convxtoaxx">Conveyor to almacen</string>
+    <string name="ws_bxtoaxx">Buffer to almacen</string>
 
-        <string name="ws_mpxtofrx">Materia prima to Fresadora</string>
-        <string name="ws_mpxtotrx">Materia prima to Torno</string>
-        <string name="ws_prog1">Programa 1</string>
-        <string name="ws_prog2">Programa 2</string>
-        <string name="ws_trxtobx">Torno to Buffer</string>
-        <string name="ws_frxtobx">Fresadora to Buffer</string>
+    <string name="ws_mpxtofrx">Materia prima to Fresadora</string>
+    <string name="ws_mpxtotrx">Materia prima to Torno</string>
+    <string name="ws_prog1">Programa 1</string>
+    <string name="ws_prog2">Programa 2</string>
+    <string name="ws_trxtobx">Torno to Buffer</string>
+    <string name="ws_frxtobx">Fresadora to Buffer</string>
 
-        <string name="ws_mpxtopx">Materia prima to Prensa</string>
-        <string name="ws_mpxtomvx">Materia prima to Machine Vision</string>
-        <string name="ws_prog3">Programa 3</string>
-        <string name="ws_pxtobx">Prensa to Buffer</string>
+    <string name="ws_mpxtopx">Materia prima to Prensa</string>
+    <string name="ws_mpxtomvx">Materia prima to Machine Vision</string>
+    <string name="ws_prog3">Programa 3</string>
+    <string name="ws_pxtobx">Prensa to Buffer</string>
 
-        <!-- Strings related to DeviceListActivity -->
+    <!-- Strings related to DeviceListActivity -->
 
-        <string name="bt_not_enabled_leaving">Bluetooth was not enabled.</string>
+    <string name="bt_not_enabled_leaving">Bluetooth was not enabled.</string>
 
-        <string name="scanning">scanning for devices...</string>
-        <string name="select_device">select a device to connect</string>
-        <string name="none_paired">No devices have been paired</string>
-        <string name="none_found">No devices found</string>
-        <string name="title_paired_devices">Paired Devices</string>
-        <string name="title_other_devices">Other Available Devices</string>
-        <string name="button_scan">Scan for devices</string>
+    <string name="scanning">scanning for devices...</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
 
-        <!-- Strings SharedPreferences -->
+    <!-- Strings SharedPreferences -->
 
-        <string name="spreferences_listaClientes">spf_listaClientes</string>
-        <string name="spreferences_listaMensajes">spf_listaMensajes</string>
-
+    <string name="spreferences_listaClientes">spf_listaClientes</string>
+    <string name="spreferences_listaMensajes">spf_listaMensajes</string>
 
 
     <!-- Example General settings -->

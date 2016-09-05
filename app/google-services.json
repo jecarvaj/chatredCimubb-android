@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "293673384763",
-    "firebase_url": "https://androidtest-5d41b.firebaseio.com",
-    "project_id": "androidtest-5d41b",
-    "storage_bucket": "androidtest-5d41b.appspot.com"
+    "project_number": "229481745164",
+    "firebase_url": "https://chatred-android.firebaseio.com",
+    "project_id": "chatred-android",
+    "storage_bucket": "chatred-android.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:293673384763:android:2542838b37733e92",
+        "mobilesdk_app_id": "1:229481745164:android:2542838b37733e92",
         "android_client_info": {
           "package_name": "cl.ubiobio.cim.chatred"
         }
       },
       "oauth_client": [
         {
-          "client_id": "293673384763-bsknn8r44lk16je2mlcj7faj5esnvjf9.apps.googleusercontent.com",
+          "client_id": "229481745164-u68b3k7fsat0dvddvorlfdlcq1nqu6hp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDLSNxJtCAMU6Y6_KoXgSqcFbumz0ZtzG8"
+          "current_key": "AIzaSyAnPOxHghsgwkG10v4OavyVg9L83UjDbZk"
         }
       ],
       "services": {

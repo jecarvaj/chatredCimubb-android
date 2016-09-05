@@ -45,8 +45,9 @@ import cl.ubiobio.cim.chatred.settings.SettingsActivity;
 public class MainActivity extends AppCompatActivity implements ServiceCallbacks,BluetoothConstantes {
 
     /* -------- Servicio -------- */
-    private LocalService mService;
+    public static LocalService mService;
     private boolean mBound = false;
+    public static boolean isCheckedCloud=false;
     /* -------- -------- -------- */
 
     /* -------- Interfaz -------- */
@@ -181,6 +182,23 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks,
 
             return true;
         }
+        if(id==R.id.action_nube){
+            isCheckedCloud = !item.isChecked();
+            item.setChecked(isCheckedCloud);
+            if(isCheckedCloud){
+                Toast.makeText(this, "Subida de datos activada", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Subida de datos desactivada", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+        if (id == R.id.action_crearPrueba) {
+
+            Intent intent = new Intent(this, RegistrarPruebaActivity.class);
+            startActivity(intent);
+
+            return true;
+        }
 
         if (id == R.id.action_wifi) {
 
@@ -307,25 +325,12 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks,
     public void enviarMensaje(){
 
         final String s = entertext.getText().toString();    // El texto de la entrada de texto
-           // final String recibe= (String) newtext.getItemAtPosition(newtext.getCount()-1);
         if(mService.getEnviar().ipVacia()){                             // Si no exite una ip para comunicar por defecto
             mService.getEnviar().addIp(s);                      // añade una nueva ip
         } else {                                            // Sino
             new Thread(new Runnable() {                         // crea un nuevo hilo
                 public void run() {
-            //        Log.d("recibee", recibe);
-                  //  subirNube("Enviado comando: ["+s+"] desde: "+mService.getIpAddress(), "nueva");// Intenta llamar al método del servicio
-                   // subirNube("jljgjkvkhvkhvkhv :",  "recibe2");
-                   /* for(int x=0; x<20;x++){
-                        Random r = new Random();
-                        int i1 = r.nextInt(9999) + 0065;
-                        int i2 = r.nextInt(9999) + 1000;
-                        int i3 = r.nextInt(9999) + 1533;
-                        String r1=String.valueOf(i1);
-                        String r2=String.valueOf(i2);
-                        String r3=String.valueOf(i3);
-                        subirNube("["+r1+"]-["+r2+"]["+r3+"]");
-                    }*/
+
                     mService.getEnviar().enviarMensaje(s);      // enviarMensaje con el mensaje como argumento
                 }
             }).start();
@@ -495,6 +500,10 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks,
 
         return this;
 
+    }
+
+    public static boolean getCheckedCloud(){
+        return isCheckedCloud;
     }
 
     public void subirNube(String info, String referencia){
