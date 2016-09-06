@@ -39,12 +39,16 @@ import cl.ubiobio.cim.chatred.RegistrarPruebaActivity;
  */
 public class Bluetooth implements BluetoothConstantes{
     private LocalService localService;
+   private static Map<String, Object> mapPrueba = new HashMap<String, Object>();
+    private static Map<String, Object> mapEncoders;
+    private static Map<String, Object> mapEncodersTotal = new HashMap<String, Object>();
 
     private hiloConectar btConectar;
     private hiloConectado btConectado;
     private hiloEscucha btEscucha;
 
     private int estado;
+    private static int contadorEnc=0;
     private boolean activo, recibeEncoder=false;
 
     // Metodos estado
@@ -284,6 +288,7 @@ public class Bluetooth implements BluetoothConstantes{
 
                         String mensaje = lector.readLine();         // Obtiene el String recibido
 
+
                         if(MainActivity.comparaUltima(localService.getChat(),"Respuesta:")) // Si la etiqueta respuesta no se ha usado
                             localService.mensajesChat("et Respuesta:");                     // Añade la etiqueta respuesta al chat
                         localService.mensajesChat("btm "+mensaje);                          // Añade el mensaje recibido al chat
@@ -520,15 +525,135 @@ public class Bluetooth implements BluetoothConstantes{
         int año = c1.get(Calendar.YEAR);
         int mes = c1.get(Calendar.MONTH);
         int dia = c1.get(Calendar.DAY_OF_MONTH);
+        String fecha=dia+"/"+(mes+1)+"/"+año;
+        return fecha;
+    }
+    public String crearHora(){
+        Calendar c1 = Calendar.getInstance();
         int hora = c1.get(Calendar.HOUR_OF_DAY);
         int minuto = c1.get(Calendar.MINUTE);
         int segundo = c1.get(Calendar.SECOND);
         String fecha_hora=hora+":"+minuto+":"+segundo;
-        String fecha=dia+"/"+(mes+1)+"/"+año+" "+fecha_hora;
-        return fecha;
+        return fecha_hora;
+    }
+    public void analizaNube(String mensaje, String opcion){
+
+
+        Map <String, Object> map = new HashMap<String, Object>();
+
+        //expresion regular para determinar si es una cuenta de encoder
+
+
+        Long tsLong = System.currentTimeMillis()/10;
+        String ts = tsLong.toString();
+
+            if(RegistrarPruebaActivity.nuevaPrueba){
+
+
+
+                System.out.println("======================================ESTOY EN NUEVAPRUEBAIFFFF "+mensaje);
+                Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){8}");
+                Matcher mat = pat.matcher(mensaje);
+
+                if (mat.matches()) { //si es que el mensaje tiene el mismo formato que la expresion regular (cuenta de encoder)
+                    mapEncoders = new HashMap<String, Object>();
+                    String delimitadores = "[ ]+";   //defino un delimitador que divida el string por cada espacio
+                    String[] encoders = mensaje.split(delimitadores); //divido el string y lo guardo en un arreglo, por cada encoder
+                    System.out.println("=============================MATCHHHHHH-----ENTRO OOOOOOO A AAAA ENCODERSS PRUEBAA!1");
+                    //mapeo los datos y los mando a la funcion subirNube
+                    contadorEnc++;
+                    mapEncoders.put("fecha", crearFecha());
+                    mapEncoders.put("hora", crearHora());
+                    mapEncoders.put("timestamp", ts);
+                    mapEncoders.put("enc1", encoders[0]);
+                    mapEncoders.put("enc2", encoders[1]);
+                    mapEncoders.put("enc3", encoders[2]);
+                    mapEncoders.put("enc4", encoders[3]);
+                    mapEncoders.put("enc5", encoders[4]);
+                    mapEncoders.put("enc6", encoders[5]);
+                    mapEncoders.put("enc7", encoders[6]);
+                    mapEncoders.put("enc8", encoders[7]);
+                    mapEncodersTotal.put(String.valueOf(contadorEnc), mapEncoders);
+
+                }else{
+                    System.out.println("===========================ELSEEEEE NO MATCHHHH --NuevaPrueba "+mensaje);
+                    mapPrueba.put("fecha", crearFecha());
+                    mapPrueba.put("hora", crearHora());
+                    mapPrueba.put("timestamp", ts);
+                    mapPrueba.put("nombre_prueba", RegistrarPruebaActivity.RPnombrePrueba);
+                    mapPrueba.put("comando", RegistrarPruebaActivity.RPcomando);
+                    // mapPrueba.put("encoders", "");
+
+                }
+            }
+            else if(opcion.equals("recibe")) { //si el mensaje es uno entrante (desde el robot al celu)
+                //expresion regular para determinar si es una cuenta de encoder
+                Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){8}");
+                Matcher mat = pat.matcher(mensaje);
+
+                if (mat.matches() && !RegistrarPruebaActivity.guardaEncoders) { //si es que el mensaje tiene el mismo formato que la expresion regular (cuenta de encoder)
+                    String delimitadores = "[ ]+";   //defino un delimitador que divida el string por cada espacio
+                    String[] encoders = mensaje.split(delimitadores); //divido el string y lo guardo en un arreglo, por cada encoder
+                    System.out.println("ENTROOOOO A NENCODERSSS RECIBE ELSE IF");
+
+                    //mapeo los datos y los mando a la funcion subirNube
+                    map.put("fecha", crearFecha());
+                    map.put("hora", crearHora());
+                    map.put("timestamp", ts);
+                    map.put("enc1", encoders[0]);
+                    map.put("enc2", encoders[1]);
+                    map.put("enc3", encoders[2]);
+                    map.put("enc4", encoders[3]);
+                    map.put("enc5", encoders[4]);
+                    map.put("enc6", encoders[5]);
+                    map.put("enc7", encoders[6]);
+                    map.put("enc8", encoders[7]);
+
+                    subirNube(map, "encoders");
+                } else { //Si es que es un mensaje de otro tipo (No cuenta de encoder) que recibo desde el robot
+                    map.put("fecha", crearFecha());
+                    map.put("hora", crearHora());
+                    map.put("timestamp", ts);
+                    map.put("mensaje", mensaje);
+                    System.out.println("ENTROOOOO A RECIBIDOSSS");
+                    subirNube(map, "recibidos");
+                }
+            }else { //Subo el comando enviado desde el celular
+                map.put("fecha", crearFecha());
+                map.put("hora", crearHora());
+                map.put("timestamp", ts);
+                map.put("mensaje", mensaje);
+                System.out.println("ENTROOOOO A ENVIADOSSSSSSS");
+                subirNube(map, "enviados");
+            }
+
+
+
 
     }
 
+    public  static void subirPrueba(){
+        System.out.println("ENTRO A SUBIRPRUEBAAAA---------------");
+        mapPrueba.put("encoders", mapEncodersTotal);
+        System.out.println("PASEEE MAP DENTRO DE MAPP----------subiendo-- ");
+        subirNube(mapPrueba, "pruebaEncoders");
+        System.out.println("SUBIDOSSSSSSS---------------------------------");
+        contadorEnc=0;
+        mapPrueba.clear();
+        mapEncoders.clear();
+        mapEncodersTotal.clear();
+    }
+
+
+    public static void subirNube(Map<String, Object> info, String referencia){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(referencia);
+
+            myRef.push().setValue(info);
+
+
+
+    }
 
 
 }
