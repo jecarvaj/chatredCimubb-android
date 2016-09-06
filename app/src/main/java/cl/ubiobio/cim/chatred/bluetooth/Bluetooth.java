@@ -37,6 +37,14 @@ import cl.ubiobio.cim.chatred.RegistrarPruebaActivity;
  * usan lectores y escritores, se han añadido métodos y cambiado la forma en la que se controlan los
  * ciclos, incluyendo la velocidad de los ciclos de modo que sea dinamica.
  */
+
+/**
+ *  Modificado por Jean Carvajal Agosto 2016
+ *  Agrego funciones y metodos para subir los datos recibidos y enviados a una cuenta de Firebase en la nube
+ *  Firebase es la plataforma de google para trabajar en la nube.
+ *  http://firebase.google.com
+ *
+ */
 public class Bluetooth implements BluetoothConstantes{
     private LocalService localService;
    private static Map<String, Object> mapPrueba = new HashMap<String, Object>();
@@ -293,7 +301,11 @@ public class Bluetooth implements BluetoothConstantes{
                             localService.mensajesChat("et Respuesta:");                     // Añade la etiqueta respuesta al chat
                         localService.mensajesChat("btm "+mensaje);                          // Añade el mensaje recibido al chat
 
-                       System.out.println("RECIBOOOOO DE BLUUUUEEETOOOH::::: "+mensaje);
+                       System.out.println("RECIBOOOOO DE BLUUUUEEETOOOH::::: "+mensaje); //pa ir probando :p
+
+                        //NUBE
+                        //envio el mensaje a la funcion analizaNube() para determinar qué tipo de mensaje es
+                        //y guardarlo en la nube
                         analizaNube(mensaje, "recibe");
 
                         if(localService.getEnviar().getOrdenBTactiva())                     // Si se esta comunicando una orden por BT
@@ -414,8 +426,12 @@ public class Bluetooth implements BluetoothConstantes{
         }
         // Perform the write unsynchronized
         r.escribirln(s);
+
+        //NUBE
+        //envio el mensaje a la funcion analizaNube() para determinar qué tipo de mensaje es
+        //y guardarlo en la nube
        System.out.println("ENVIOOOOOOOOOOOOOOOOO"+s);
-        analizaNube(s, "envia");
+        analizaNube(s, "envia"); //le paso el parametro "envia" porque es un mensaje enviado y no recibido
 
     }
 
@@ -520,6 +536,8 @@ public class Bluetooth implements BluetoothConstantes{
 
     }
 
+    //NUBE
+    //Funcionn que retorna un string con la fecha
     public String crearFecha(){
         Calendar c1 = Calendar.getInstance();
         int año = c1.get(Calendar.YEAR);
@@ -528,6 +546,9 @@ public class Bluetooth implements BluetoothConstantes{
         String fecha=dia+"/"+(mes+1)+"/"+año;
         return fecha;
     }
+
+    //NUBE
+    //lo mismo pero con la hora
     public String crearHora(){
         Calendar c1 = Calendar.getInstance();
         int hora = c1.get(Calendar.HOUR_OF_DAY);
@@ -536,31 +557,34 @@ public class Bluetooth implements BluetoothConstantes{
         String fecha_hora=hora+":"+minuto+":"+segundo;
         return fecha_hora;
     }
+
+    //NUBE
+    //Funcion que recibe el mensaje junto a un parametro "opcion" que determina si es un mensaje entrante o saliente
+    //analiza el mensaje y descubre si es una cuenta de encoder o alguna otra cosa
     public void analizaNube(String mensaje, String opcion){
+        Map <String, Object> map = new HashMap<String, Object>(); //Creo un hasmap para guardar los mensajes antes de subirlos
 
+        Long tsLong = System.currentTimeMillis()/10; //obtengo el timestamp para agregar a los datos subidos
+        String ts = tsLong.toString(); //paso el timestamp a un string
 
-        Map <String, Object> map = new HashMap<String, Object>();
+        if(MainActivity.getCheckedCloud()) {
+            if (RegistrarPruebaActivity.nuevaPrueba) { //Si es que el boolean nuevaPrueba esta en true
+                //significa que los mensajes corresponden a una nueva prueba que se registra
 
-        //expresion regular para determinar si es una cuenta de encoder
+                System.out.println("======================================ESTOY EN NUEVAPRUEBAIFFFF " + mensaje);
 
-
-        Long tsLong = System.currentTimeMillis()/10;
-        String ts = tsLong.toString();
-
-            if(RegistrarPruebaActivity.nuevaPrueba){
-
-
-
-                System.out.println("======================================ESTOY EN NUEVAPRUEBAIFFFF "+mensaje);
+                //expresion regular para determinar si es una cuenta de encoder
                 Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){8}");
                 Matcher mat = pat.matcher(mensaje);
 
                 if (mat.matches()) { //si es que el mensaje tiene el mismo formato que la expresion regular (cuenta de encoder)
-                    mapEncoders = new HashMap<String, Object>();
+                    mapEncoders = new HashMap<String, Object>(); //inicializo el hashmap
                     String delimitadores = "[ ]+";   //defino un delimitador que divida el string por cada espacio
                     String[] encoders = mensaje.split(delimitadores); //divido el string y lo guardo en un arreglo, por cada encoder
+
                     System.out.println("=============================MATCHHHHHH-----ENTRO OOOOOOO A AAAA ENCODERSS PRUEBAA!1");
-                    //mapeo los datos y los mando a la funcion subirNube
+
+                    //Mapeo los datos de cuentas de encoders
                     contadorEnc++;
                     mapEncoders.put("fecha", crearFecha());
                     mapEncoders.put("hora", crearHora());
@@ -573,20 +597,19 @@ public class Bluetooth implements BluetoothConstantes{
                     mapEncoders.put("enc6", encoders[5]);
                     mapEncoders.put("enc7", encoders[6]);
                     mapEncoders.put("enc8", encoders[7]);
-                    mapEncodersTotal.put(String.valueOf(contadorEnc), mapEncoders);
+                    //tengo un map global donde ira cada cuenta de encoder
+                    mapEncodersTotal.put(String.valueOf(contadorEnc), mapEncoders); //agrego a map global, la cuenta de encoder
 
-                }else{
-                    System.out.println("===========================ELSEEEEE NO MATCHHHH --NuevaPrueba "+mensaje);
+                } else { //si no es una cuenta de encoder c(corresponde a una nueva prueba)
+                    System.out.println("===========================ELSEEEEE NO MATCHHHH --NuevaPrueba " + mensaje);
                     mapPrueba.put("fecha", crearFecha());
                     mapPrueba.put("hora", crearHora());
                     mapPrueba.put("timestamp", ts);
                     mapPrueba.put("nombre_prueba", RegistrarPruebaActivity.RPnombrePrueba);
                     mapPrueba.put("comando", RegistrarPruebaActivity.RPcomando);
-                    // mapPrueba.put("encoders", "");
-
                 }
-            }
-            else if(opcion.equals("recibe")) { //si el mensaje es uno entrante (desde el robot al celu)
+            }//termina if, ahora no corresponde a nuevaprueba
+            else if (opcion.equals("recibe")) { //si el mensaje es uno entrante (desde el robot al celu)
                 //expresion regular para determinar si es una cuenta de encoder
                 Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){8}");
                 Matcher mat = pat.matcher(mensaje);
@@ -608,7 +631,6 @@ public class Bluetooth implements BluetoothConstantes{
                     map.put("enc6", encoders[5]);
                     map.put("enc7", encoders[6]);
                     map.put("enc8", encoders[7]);
-
                     subirNube(map, "encoders");
                 } else { //Si es que es un mensaje de otro tipo (No cuenta de encoder) que recibo desde el robot
                     map.put("fecha", crearFecha());
@@ -618,7 +640,7 @@ public class Bluetooth implements BluetoothConstantes{
                     System.out.println("ENTROOOOO A RECIBIDOSSS");
                     subirNube(map, "recibidos");
                 }
-            }else { //Subo el comando enviado desde el celular
+            } else { //Subo el comando enviado desde el celular
                 map.put("fecha", crearFecha());
                 map.put("hora", crearHora());
                 map.put("timestamp", ts);
@@ -627,32 +649,37 @@ public class Bluetooth implements BluetoothConstantes{
                 subirNube(map, "enviados");
             }
 
-
+        }
 
 
     }
 
+    //NUBE
+    //funcion para crear el hashmap, estructuro los datos y los envio a subirNube()
     public  static void subirPrueba(){
         System.out.println("ENTRO A SUBIRPRUEBAAAA---------------");
         mapPrueba.put("encoders", mapEncodersTotal);
-        System.out.println("PASEEE MAP DENTRO DE MAPP----------subiendo-- ");
         subirNube(mapPrueba, "pruebaEncoders");
         System.out.println("SUBIDOSSSSSSS---------------------------------");
+
         contadorEnc=0;
-        mapPrueba.clear();
-        mapEncoders.clear();
-        mapEncodersTotal.clear();
+        try {
+            mapPrueba.clear();
+            mapEncoders.clear();
+            mapEncodersTotal.clear();
+        }catch (Exception e){
+            System.out.println("Error al limpiar los hasmap: "+e.toString());
+        }
+
     }
 
-
+    //NUBE
+    // funcion para subir datos a la nube
+    // Revisar documentacion en http://firebase.google.com, seccion Base de datos en tiempo real (realtime database)
     public static void subirNube(Map<String, Object> info, String referencia){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(referencia);
-
-            myRef.push().setValue(info);
-
-
-
+        FirebaseDatabase database = FirebaseDatabase.getInstance(); //obtengo instancia de la base de datos
+        DatabaseReference myRef = database.getReference(referencia); //hago una referencia a la "tabla" que quiero manipular
+        myRef.push().setValue(info); //metodo push para agregar datos a una lista en una base de datos no relacional
     }
 
 
