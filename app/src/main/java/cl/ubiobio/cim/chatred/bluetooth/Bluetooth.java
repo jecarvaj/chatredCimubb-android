@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import cl.ubiobio.cim.chatred.Constantes;
 import cl.ubiobio.cim.chatred.LocalService;
 import cl.ubiobio.cim.chatred.MainActivity;
+import cl.ubiobio.cim.chatred.RegistrarPruebaActivity;
 
 /**
  * Created by Tomás Lermanda on 28-12-2015.
@@ -514,9 +515,7 @@ public class Bluetooth implements BluetoothConstantes{
 
     }
 
-    public void analizaNube(String mensaje, String opcion){
-
-
+    public String crearFecha(){
         Calendar c1 = Calendar.getInstance();
         int año = c1.get(Calendar.YEAR);
         int mes = c1.get(Calendar.MONTH);
@@ -524,50 +523,88 @@ public class Bluetooth implements BluetoothConstantes{
         int hora = c1.get(Calendar.HOUR_OF_DAY);
         int minuto = c1.get(Calendar.MINUTE);
         int segundo = c1.get(Calendar.SECOND);
-        String fecha=dia+"/"+(mes+1)+"/"+año;
         String fecha_hora=hora+":"+minuto+":"+segundo;
+        String fecha=dia+"/"+(mes+1)+"/"+año+" "+fecha_hora;
+        return fecha;
+
+    }
+    public void analizaNube(String mensaje, String opcion){
+
         Map<String, Object> map = new HashMap<String, Object>();
         Long tsLong = System.currentTimeMillis()/10;
         String ts = tsLong.toString();
 
-        Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){7}((\\d|\\-)\\d\\d\\d\\d\\d\\s)");
+        //expresion regular para determinar si es una cuenta de encoder
+        Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){8}");
         Matcher mat = pat.matcher(mensaje);
 
-        if(opcion.equals("recibe")) {
-            if (mat.matches()) {
-                System.out.println("ES UN ENCODEEEEEEEEEEEERRRRr");
-                String delimitadores = "[ ]+";
-                String[] encoders = mensaje.split(delimitadores);
+        if (MainActivity.isCheckedCloud){ //si es que el item de subida de datos a nube está activado (subo las cosas)
+            if(RegistrarPruebaActivity.nuevaPrueba){
 
-                map.put("fecha", fecha);
-                map.put("hora", fecha_hora);
+
+                map.put("fecha", crearFecha());
                 map.put("timestamp", ts);
-                map.put("enc1", encoders[0]);
-                map.put("enc2", encoders[1]);
-                map.put("enc3", encoders[2]);
-                map.put("enc4", encoders[3]);
-                map.put("enc5", encoders[4]);
-                map.put("enc6", encoders[5]);
-                map.put("enc7", encoders[6]);
-                map.put("enc8", encoders[7]);
-                subirNube(map, "encoders");
-            } else {
-                System.out.println("NO PASA NAAAAAAAAAAAAAAAA");
-                map.put("fecha", fecha);
-                map.put("hora", fecha_hora);
+                map.put("nombre_prueba", RegistrarPruebaActivity.RPnombrePrueba);
+                map.put("comando", RegistrarPruebaActivity.RPcomando);
+                map.put("encoders", "");
+                System.out.println("ENTROOOOO A NOMBRPEUEBAAA");
+                subirNube(map, "pruebaEncoders");
+
+
+                if (mat.matches()) { //si es que el mensaje tiene el mismo formato que la expresion regular (cuenta de encoder)
+                    String delimitadores = "[ ]+";   //defino un delimitador que divida el string por cada espacio
+                    String[] encoders = mensaje.split(delimitadores); //divido el string y lo guardo en un arreglo, por cada encoder
+                    System.out.println("ENTRO OOOOOOO A AAAA ENCODERSS PRUEBAA!1");
+                    //mapeo los datos y los mando a la funcion subirNube
+                    map.put("fecha", crearFecha());
+                    map.put("timestamp", ts);
+                    map.put("enc1", encoders[0]);
+                    map.put("enc2", encoders[1]);
+                    map.put("enc3", encoders[2]);
+                    map.put("enc4", encoders[3]);
+                    map.put("enc5", encoders[4]);
+                    map.put("enc6", encoders[5]);
+                    map.put("enc7", encoders[6]);
+                    map.put("enc8", encoders[7]);
+                    subirNube(map, "pruebaEncoders1");
+                }
+
+            }
+            else if(opcion.equals("recibe")) { //si el mensaje es uno entrante (desde el robot al celu)
+                if (mat.matches() && !RegistrarPruebaActivity.guardaEncoders) { //si es que el mensaje tiene el mismo formato que la expresion regular (cuenta de encoder)
+                    String delimitadores = "[ ]+";   //defino un delimitador que divida el string por cada espacio
+                    String[] encoders = mensaje.split(delimitadores); //divido el string y lo guardo en un arreglo, por cada encoder
+                    System.out.println("ENTROOOOO A NENCODERSSS RECIBE ELSE IF");
+                    //mapeo los datos y los mando a la funcion subirNube
+                    map.put("fecha", crearFecha());
+                    map.put("timestamp", ts);
+                    map.put("enc1", encoders[0]);
+                    map.put("enc2", encoders[1]);
+                    map.put("enc3", encoders[2]);
+                    map.put("enc4", encoders[3]);
+                    map.put("enc5", encoders[4]);
+                    map.put("enc6", encoders[5]);
+                    map.put("enc7", encoders[6]);
+                    map.put("enc8", encoders[7]);
+
+                    subirNube(map, "encoders");
+                } else { //Si es que es un mensaje de otro tipo (No cuenta de encoder) que recibo desde el robot
+                    map.put("fecha", crearFecha());
+                    map.put("timestamp", ts);
+                    map.put("mensaje", mensaje);
+                    System.out.println("ENTROOOOO A RECIBIDOSSS");
+                    subirNube(map, "recibidos");
+                }
+            }else { //Subo el comando enviado desde el celular
+                map.put("fecha", crearFecha());
                 map.put("timestamp", ts);
                 map.put("mensaje", mensaje);
-                subirNube(map, "recibidos");
+                System.out.println("ENTROOOOO A ENVIADOSSSSSSS");
+                subirNube(map, "enviados");
             }
-        }else {
-            System.out.println("ESTOY ENVIANDO NNNFOSADNFOASDNF");
-            map.put("fecha", fecha);
-            map.put("hora", fecha_hora);
-            map.put("timestamp", ts);
-            map.put("mensaje", mensaje);
-            subirNube(map, "enviados");
         }
-
+       /*
+*/
 
     }
 
@@ -575,6 +612,21 @@ public class Bluetooth implements BluetoothConstantes{
     public void subirNube(Map<String, Object> info, String referencia){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(referencia);
-        myRef.push().setValue(info);
+        if(referencia.equals("pruebaEncoders")){
+            myRef.push().setValue(info);
+        }
+        if(referencia.equals("pruebaEncoders1")){
+            myRef = database.getReference("pruebaEncoders");
+            String key=myRef.getKey();
+            System.out.println("LA KEYYYYYYYYYYYYY ES "+key);
+            myRef.child(key+"/encoders").push().setValue(info);
+        }
+        if(referencia.equals("encoders")){
+            myRef.push().setValue(info);
+        }
+        else{
+            myRef.push().setValue(info);
+        }
+
     }
 }
