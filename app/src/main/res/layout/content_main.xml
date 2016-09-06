@@ -82,6 +82,15 @@
                     android:layout_weight="0.25"
                     android:text="originSend"
                     android:id="@+id/enviartexto" />
+                //boton de pruebaaa!!
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:text="showEnco"
+                    android:id="@+id/btnShowEnco" />
 
                 </LinearLayout>
 

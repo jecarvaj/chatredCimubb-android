@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks,
     //public static TextView newtext;
     private ListView newtext;
     private ArrayAdapter<String> adapter;
-    private Button display;
+    private Button display, showEnco;
     private EditText entertext;
     private ScrollView scroller;
     /* -------- -------- -------- */
@@ -74,6 +74,17 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks,
 
         entertext = (EditText)findViewById(R.id.textoingresado);    //EditText  espacio para ingresar texto
         display = (Button) findViewById(R.id.enviartexto);          //Button    boton para enviar texto al chat
+
+        //boton por mientras de prueba!!
+        showEnco = (Button) findViewById(R.id.btnShowEnco);
+        showEnco.setOnClickListener(new OnClickListener() {          // Listener Boton Enviar
+            @Override
+            public void onClick(View v) {
+                mService.getEnviar().enviarMensaje("bt show enco");
+            }
+        });
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -506,15 +517,6 @@ public class MainActivity extends AppCompatActivity implements ServiceCallbacks,
         return isCheckedCloud;
     }
 
-    public void subirNube(String info, String referencia){
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(referencia);
-
-        myRef.push().setValue(info);
-        //
-        //Toast.makeText(this, "probando nubee", Toast.LENGTH_LONG).show();
-
-    }
 
 }

@@ -51,6 +51,7 @@ public class EnviaM implements Constantes {
 
             localService.getBluetooth().escribirln(mensaje);// misma línea anterior usando métodos
 
+
         }
 
         while(getEstadoMensajes()){                         // Mientras AnalizaMensajes(Wifi) esta ocupado
