@@ -39,6 +39,9 @@ import cl.ubiobio.cim.chatred.RegistrarPruebaActivity;
  */
 public class Bluetooth implements BluetoothConstantes{
     private LocalService localService;
+   private static Map<String, Object> mapPrueba = new HashMap<String, Object>();
+    private static Map<String, Object> mapEncoders;
+    private static Map<String, Object> mapEncodersTotal = new HashMap<String, Object>();
 
     private hiloConectar btConectar;
     private hiloConectado btConectado;
@@ -284,12 +287,13 @@ public class Bluetooth implements BluetoothConstantes{
 
                         String mensaje = lector.readLine();         // Obtiene el String recibido
 
+
                         if(MainActivity.comparaUltima(localService.getChat(),"Respuesta:")) // Si la etiqueta respuesta no se ha usado
                             localService.mensajesChat("et Respuesta:");                     // Añade la etiqueta respuesta al chat
                         localService.mensajesChat("btm "+mensaje);                          // Añade el mensaje recibido al chat
 
                        System.out.println("RECIBOOOOO DE BLUUUUEEETOOOH::::: "+mensaje);
-                        analizaNube(mensaje, "recibe");
+                        analizaNube2(mensaje, "recibe");
 
                         if(localService.getEnviar().getOrdenBTactiva())                     // Si se esta comunicando una orden por BT
                             localService.getEnviar().getMBluetooth().add(mensaje);              // Se añade el mensaje al Vector mensajesBT
@@ -410,7 +414,7 @@ public class Bluetooth implements BluetoothConstantes{
         // Perform the write unsynchronized
         r.escribirln(s);
        System.out.println("ENVIOOOOOOOOOOOOOOOOO"+s);
-        analizaNube(s, "envia");
+       // analizaNube(s, "envia");
 
     }
 
@@ -520,14 +524,106 @@ public class Bluetooth implements BluetoothConstantes{
         int año = c1.get(Calendar.YEAR);
         int mes = c1.get(Calendar.MONTH);
         int dia = c1.get(Calendar.DAY_OF_MONTH);
+        String fecha=dia+"/"+(mes+1)+"/"+año;
+        return fecha;
+    }
+    public String crearHora(){
+        Calendar c1 = Calendar.getInstance();
         int hora = c1.get(Calendar.HOUR_OF_DAY);
         int minuto = c1.get(Calendar.MINUTE);
         int segundo = c1.get(Calendar.SECOND);
         String fecha_hora=hora+":"+minuto+":"+segundo;
-        String fecha=dia+"/"+(mes+1)+"/"+año+" "+fecha_hora;
-        return fecha;
+        return fecha_hora;
+    }
+    public void analizaNube2(String mensaje, String opcion){
+
+
+
+
+        //expresion regular para determinar si es una cuenta de encoder
+
+
+
+            if(RegistrarPruebaActivity.nuevaPrueba){
+
+                Long tsLong = System.currentTimeMillis()/10;
+                String ts = tsLong.toString();
+
+                System.out.println("======================================ESTOY EN NUEVAPRUEBAIFFFF "+mensaje);
+                Pattern pat = Pattern.compile("((\\d|\\-)\\d\\d\\d\\d\\d\\s){8}");
+                Matcher mat = pat.matcher(mensaje);
+
+                if (mat.matches()) { //si es que el mensaje tiene el mismo formato que la expresion regular (cuenta de encoder)
+                    mapEncoders = new HashMap<String, Object>();
+                    String delimitadores = "[ ]+";   //defino un delimitador que divida el string por cada espacio
+                    String[] encoders = mensaje.split(delimitadores); //divido el string y lo guardo en un arreglo, por cada encoder
+                    System.out.println("=============================MATCHHHHHH-----ENTRO OOOOOOO A AAAA ENCODERSS PRUEBAA!1");
+                    //mapeo los datos y los mando a la funcion subirNube
+
+                    mapEncoders.put("fecha", crearFecha());
+                    mapEncoders.put("hora", crearHora());
+                    mapEncoders.put("timestamp", ts);
+                    mapEncoders.put("enc1", encoders[0]);
+                    mapEncoders.put("enc2", encoders[1]);
+                    mapEncoders.put("enc3", encoders[2]);
+                    mapEncoders.put("enc4", encoders[3]);
+                    mapEncoders.put("enc5", encoders[4]);
+                    mapEncoders.put("enc6", encoders[5]);
+                    mapEncoders.put("enc7", encoders[6]);
+                    mapEncoders.put("enc8", encoders[7]);
+                    mapEncodersTotal.put(ts, mapEncoders);
+
+
+
+                }else{
+                    System.out.println("===========================ELSEEEEE NO MATCHHHH --NuevaPrueba "+mensaje);
+                    mapPrueba.put("fecha", crearFecha());
+                    mapPrueba.put("hora", crearHora());
+                    mapPrueba.put("timestamp", ts);
+                    mapPrueba.put("nombre_prueba", RegistrarPruebaActivity.RPnombrePrueba);
+                    mapPrueba.put("comando", RegistrarPruebaActivity.RPcomando);
+                    // mapPrueba.put("encoders", "");
+
+                }
+            }
+
+
+
 
     }
+
+    public  static void subirPrueba(){
+        System.out.println("ENTRO A SUBIRPRUEBAAAA---------------");
+        mapPrueba.put("encoders", mapEncodersTotal);
+        System.out.println("PASEEE MAP DENTRO DE MAPP----------subiendo-- ");
+        subirNube(mapPrueba, "pruebaEncoders");
+        System.out.println("SUBIDOSSSSSSS---------------------------------");
+        mapPrueba.clear();
+        mapEncoders.clear();
+        mapEncodersTotal.clear();
+    }
+
+    public static void subirNube(Map<String, Object> info, String referencia){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(referencia);
+        if(referencia.equals("pruebaEncoders")){
+            myRef.push().setValue(info);
+        }
+        /*if(referencia.equals("pruebaEncoders1")){
+            myRef = database.getReference("pruebaEncoders");
+            String key=myRef.getKey();
+            System.out.println("LA KEYYYYYYYYYYYYY ES "+key);
+            myRef.child(key+"/encoders").push().setValue(info);
+        }
+        if(referencia.equals("encoders")){
+            myRef.push().setValue(info);
+        }
+        else{
+            myRef.push().setValue(info);
+        }*/
+
+    }
+    /*
     public void analizaNube(String mensaje, String opcion){
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -603,13 +699,13 @@ public class Bluetooth implements BluetoothConstantes{
                 subirNube(map, "enviados");
             }
         }
-       /*
-*/
-
-    }
 
 
-    public void subirNube(Map<String, Object> info, String referencia){
+
+    }*/
+
+
+   /* public void subirNube(Map<String, Object> info, String referencia){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(referencia);
         if(referencia.equals("pruebaEncoders")){
@@ -628,5 +724,5 @@ public class Bluetooth implements BluetoothConstantes{
             myRef.push().setValue(info);
         }
 
-    }
+    }*/
 }
