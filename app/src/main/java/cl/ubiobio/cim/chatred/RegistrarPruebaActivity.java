@@ -43,17 +43,25 @@ public class RegistrarPruebaActivity extends Activity {
 
         btnDetener.setOnClickListener(new View.OnClickListener() {          // Listener Boton detener
             @Override
-            public void onClick(View v) {
-                nuevaPrueba=false;
-                MainActivity.mService.getEnviar().enviarMensaje("bt show enco");
-                Bluetooth.subirPrueba();
-
+            public void onClick(View v) { //btn detener
+                nuevaPrueba=false; //cambiamos boolean indicando que ya terminamos de ejecutar la prueba
+                MainActivity.mService.getEnviar().enviarMensaje("bt show enco"); //enviamos mensaje para qe deje de enviar las cuentas de encoders
+                textArea.append("TERMINA PRUEBA ["+RPnombrePrueba+"]\n");
+                Bluetooth.subirPrueba(); //funcion que está en Bluetooth.java
             }
         });
+
         btnEjecutar.setOnClickListener(new View.OnClickListener() {          // Listener Boton ejecutar
             @Override
             public void onClick(View v) {
-               ejecutarPrueba();
+                //si es que esta activado el check de subir datos, ejecuta la prueba sin problemas(sube datos a nube)
+                if(MainActivity.isCheckedCloud){
+                    ejecutarPrueba();
+                }else{ //si no esta activado
+                    MainActivity.isCheckedCloud=true; //activamos el checked
+                    ejecutarPrueba(); //ejecutamos la prueba
+                    MainActivity.isCheckedCloud=false; //dejamos el checked como estaba
+                }
             }
         });
 
@@ -61,22 +69,20 @@ public class RegistrarPruebaActivity extends Activity {
 
 
     private void ejecutarPrueba(){
+        RPnombrePrueba=nombrePrueba.getText().toString(); //obtiene el valor que está en el edittext de nombre de prueba
+        RPcomando=comando.getText().toString(); //lo mismo para el comando a ejecutar
 
-        RPnombrePrueba=nombrePrueba.getText().toString();
-        RPcomando=comando.getText().toString();
-
-      textArea.append(comando.getText().toString()+"\n");
+      textArea.append("COMIENZA REGISTRO DE PRUEBA ["+RPnombrePrueba+"]: Comando enviado"+RPcomando+"\n");
         try {
 
             MainActivity.mService.getEnviar().enviarMensaje("bt show enco");
             nuevaPrueba=true;
             guardaEncoders=true;
             MainActivity.mService.getEnviar().enviarMensaje(RPcomando);
-
             System.out.println("Comandooooo======= "+RPcomando+" PRUEBAAAANOMBREEE "+RPnombrePrueba);
         }catch(Exception e){
-            System.out.println("PROBLEMAAAAA "+e.toString());
-            Toast.makeText(this, "Error: verifica conexión", Toast.LENGTH_SHORT).show();
+            textArea.append("PROBLEMA ENCONTRADO: ["+e.toString()+"]: Intente de nuevo\n");
+           // Toast.makeText(this, "Error: verifica conexión", Toast.LENGTH_SHORT).show();
         }
     }
 
