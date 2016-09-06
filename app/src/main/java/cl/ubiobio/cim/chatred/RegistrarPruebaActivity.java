@@ -67,6 +67,7 @@ public class RegistrarPruebaActivity extends Activity {
 
       textArea.append(comando.getText().toString()+"\n");
         try {
+        
             MainActivity.mService.getEnviar().enviarMensaje("bt show enco");
             nuevaPrueba=true;
             guardaEncoders=true;

@@ -80,13 +80,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
-                    android:text="originSend"
+                   android:text="@string/enviar"
                     android:id="@+id/enviartexto" />
                 //boton de pruebaaa!!
                 <Button
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="0dp"
                     android:background="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
                     android:text="showEnco"
